@@ -16,8 +16,8 @@ def main():
     # import logs from pickle file
     logs = read_pklfile(srcfolder + "/flows.pkl")
     # build feature graph
-    net = gnet(logs)
-    gnet.train()
+    net = graph(logs)
+    graph.train()
 
 
 def read_pklfile(pklfile):
@@ -25,7 +25,7 @@ def read_pklfile(pklfile):
         return pickle.load(pk)
 
 
-class gnet():
+class graph():
     def __init__(self, logs):
         # fix formatting on fields
         for log in logs:
@@ -143,10 +143,23 @@ class gnet():
             # append features as this set for this timestamp
             edge_features.append(features)
 
-
     def train(self):
         num_features = 100
         encoder = Encoder(in_chan=num_features, hidden_chan=32, out_chan=16)
+        decoder = Decoder(z_dim=16, hidden_dim=32, out_dim=num_features)
+
+        autoencoder = Autoencoder(encoder, decoder)
+        optimizer = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
+        criterion = torch.nn.MSELoss()
+
+        for epoch in range(100):
+            optimizer.zero_grad()
+            # in this case, I actually want to input 
+            pred = autoencoder(edges, features)
+            loss = criterion(pred, features)
+            loss.backward()
+            optimizer.step()
+            print(f"Epoch {epoch}: loss = {loss.item():.4f}")
 
 class Encoder(torch.nn.Module):
     def __init__(self, in_chan, hidden_chan, out_chan):
@@ -155,15 +168,35 @@ class Encoder(torch.nn.Module):
         self.conv2 = GCNConv(hidden_chan, out_chan)
 
     # produces edge embeddings z
-    def forward(self, x, edge_idx):
-        x = self.conv1(x, edge_idx).relu()
-        z = self.conv2(x, edge_idx)
+    def forward(self, edges, features):
+        x = self.conv1(edges, features).relu()
+        z = self.conv2(edges, features)
         return z
 
 class Decoder(torch.nn.Module):
     def __init__(self, z_dim, hidden_dim, out_dim):
         super().__init__()
-        self.
+        self.mlp = torch.nn.Sequential(
+            torch.nn.Linear(2 * z_dim, hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Linear(hidden_dim, out_dim)
+        )
+    
+    def forward(self, z, edges):
+        src, dst = edges
+        z_edge = torch.cat([edges[src], edges[dst]], dim=1)
+        return self.mlp(z_edge)
+    
+class Autoencoder(torch.nn.Module):
+    def __init__(self, encoder, decoder):
+        super().__init__()
+        self.encoder = encoder
+        self.decoder = decoder
+    
+    def forward(self, edges, features):
+        z = self.encoder(edges, features)
+        edge_pred = self.decoder(z, features)
+        return edge_pred
     
 
 if __name__ == '__main__' : main()
