@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 178, in <module>
+    if __name__ == '__main__' : main()
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 19, in main
+    flows = FlowLogs(args.f)
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 24, in __init__
+    self.read_logfile(srcfolder + "/nsg.csv")
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 41, in read_logfile
+    new_flow = Flow(row)
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 117, in __init__
+    self.convert_to_unix()
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 172, in convert_to_unix
+    dt = datetime(year, month, day, hour, minute, second)
+ValueError: second must be in 0..59
+Traceback (most recent call last):
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 178, in <module>
+    if __name__ == '__main__' : main()
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 19, in main
+    flows = FlowLogs(args.f)
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 24, in __init__
+    self.read_logfile(srcfolder + "/nsg.csv")
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 41, in read_logfile
+    new_flow = Flow(row)
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 117, in __init__
+    self.convert_to_unix()
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 172, in convert_to_unix
+    dt = datetime(year, month, day, hour, minute, second)
+ValueError: second must be in 0..59
+Traceback (most recent call last):
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 178, in <module>
+    if __name__ == '__main__' : main()
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 19, in main
+    flows = FlowLogs(args.f)
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 24, in __init__
+    self.read_logfile(srcfolder + "/nsg.csv")
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 41, in read_logfile
+    new_flow = Flow(row)
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 117, in __init__
+    self.convert_to_unix()
+  File "/home/jason/Desktop/ece695MLDCN/starterproject/src/setup.py", line 172, in convert_to_unix
+    dt = datetime(year, month, day, hour, minute, second)
+TypeError: 'float' object cannot be interpreted as an integer
